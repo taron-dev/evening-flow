@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Večerné Rozhodovanie</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; margin-top: 50px; background-color: #f4f4f4; }
+        .card { background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 400px; margin: auto; }
+        button { background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin: 10px; font-size: 16px; }
+        button:hover { opacity: 0.9; }
+        #question { font-size: 20px; margin-bottom: 20px; }
+        #options button { width: 45%; }
+    </style>
+</head>
+<body>
+
+<div class="card" id="startScreen">
+    <div id="question">Večerné rozhodovanie</div>
+    <button onclick="startDecision()">Začať</button>
+</div>
+
+<div class="card" id="decisionScreen" style="display:none;">
+    <div id="questionText"></div>
+    <div id="options"></div>
+</div>
+
+<div class="card" id="resultScreen" style="display:none;">
+    <div id="resultText"></div>
+    <button onclick="restartDecision()">Začať znova</button>
+</div>
+
+<script>
+    let questions = {
+        "start": {
+            "text": "Som naozaj VYČERPANÝ (nemám energiu sústrediť sa)?",
+            "yes": "result_tired",
+            "no": "q_urgent"
+        },
+        "q_urgent": {
+            "text": "Mám SÚRNE/DÔLEŽITÉ veci (práca, projekt s termínom)?",
+            "yes": "result_work",
+            "no": "q_value"
+        },
+        "q_value": {
+            "text": "Čo mi teraz prinesie najväčšiu HODNOTU/UPOKOJENIE?",
+            "options": {
+                "Chcem sa ROZVÍJAŤ (Čítať/Podcast)": "result_read",
+                "Potrebujem si UTRIEDIŤ (Premýšľať)": "result_think"
+            }
+        }
+    };
+
+    let results = {
+        "result_tired": "AKCIA: Choď SPAŤ (alebo pasívny oddych: ľahký podcast/hudba, krátke premýšľanie bez tlaku). Oddych je najdôležitejší!",
+        "result_work": "AKCIA: Pravidlo 15 minút na PRÁCU. Potom vyhodnoť: pokračovať alebo ísť spať.",
+        "result_read": "AKCIA: Pravidlo 15 minút: ČÍTAŤ / POČÚVAŤ PODCAST.",
+        "result_think": "AKCIA: Pravidlo 15 minút: PREMÝŠĽAŤ (a možno si niečo zapísať)."
+    };
+
+    function startDecision() {
+        document.getElementById('startScreen').style.display = 'none';
+        document.getElementById('decisionScreen').style.display = 'block';
+        askQuestion("start");
+    }
+
+    function askQuestion(key) {
+        let q = questions[key];
+        document.getElementById('questionText').innerText = q.text;
+        let optionsDiv = document.getElementById('options');
+        optionsDiv.innerHTML = ''; // Clear previous options
+
+        if (q.yes) {
+            let yesBtn = document.createElement('button');
+            yesBtn.innerText = "ÁNO";
+            yesBtn.onclick = () => processAnswer(q.yes);
+            optionsDiv.appendChild(yesBtn);
+        }
+        if (q.no) {
+            let noBtn = document.createElement('button');
+            noBtn.innerText = "NIE";
+            noBtn.onclick = () => processAnswer(q.no);
+            optionsDiv.appendChild(noBtn);
+        }
+        if (q.options) {
+            for (let optionText in q.options) {
+                let btn = document.createElement('button');
+                btn.innerText = optionText;
+                btn.onclick = () => processAnswer(q.options[optionText]);
+                optionsDiv.appendChild(btn);
+            }
+        }
+    }
+
+    function processAnswer(nextKey) {
+        if (nextKey.startsWith("result_")) {
+            document.getElementById('decisionScreen').style.display = 'none';
+            document.getElementById('resultScreen').style.display = 'block';
+            document.getElementById('resultText').innerText = results[nextKey];
+        } else {
+            askQuestion(nextKey);
+        }
+    }
+
+    function restartDecision() {
+        document.getElementById('resultScreen').style.display = 'none';
+        document.getElementById('startScreen').style.display = 'block';
+    }
+</script>
+</body>
+</html>
