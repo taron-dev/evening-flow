@@ -1,0 +1,131 @@
+        /* Základné nastavenia pre responzívny body */
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Použitie Inter fontu */
+            text-align: center;
+            margin: 0;
+            /* Odstránenie predvoleného okraja */
+            padding: 20px;
+            /* Pridanie vnútorného okraja pre celú stránku */
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            /* Horizontálne centrovanie obsahu */
+            align-items: center;
+            /* Vertikálne centrovanie obsahu */
+            min-height: 100vh;
+            /* Minimálna výška na vyplnenie celej obrazovky */
+            box-sizing: border-box;
+            /* Zabezpečí, že padding a border sú zahrnuté vo výške/šírke */
+        }
+
+        /* Štýlovanie karty */
+        .card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            /* Zaoblené rohy */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            /* Jemnejší tieň */
+            width: 90%;
+            /* Karta zaberie 90% šírky rodiča */
+            max-width: 450px;
+            /* Maximálna šírka karty */
+            box-sizing: border-box;
+            /* Zabezpečí, že padding je zahrnutý v šírke */
+        }
+
+        /* Štýlovanie tlačidiel */
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 25px;
+            /* Väčší padding pre lepšie dotykové ciele */
+            border: none;
+            border-radius: 8px;
+            /* Zaoblené rohy tlačidiel */
+            cursor: pointer;
+            margin: 8px;
+            /* Menšie okraje medzi tlačidlami */
+            font-size: 17px;
+            /* Väčší font pre tlačidlá */
+            width: calc(100% - 16px);
+            /* Zaberá takmer celú šírku s ohľadom na okraje */
+            box-sizing: border-box;
+            transition: background-color 0.3s ease;
+            /* Plynulý prechod pri hoveri */
+        }
+
+        button:hover {
+            background-color: #45a049;
+            /* Tmavšia farba pri hoveri */
+        }
+
+        /* Štýlovanie nadpisov a textu */
+        #question {
+            font-size: 24px;
+            /* Väčší font pre hlavnú otázku */
+            margin-bottom: 25px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        #questionText {
+            font-size: 20px;
+            /* Väčší font pre text otázky */
+            margin-bottom: 25px;
+            color: #555;
+        }
+
+        #resultText {
+            font-size: 20px;
+            margin-bottom: 25px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        /* Kontajner pre možnosti pre lepšie rozloženie */
+        #options {
+            display: flex;
+            flex-direction: column;
+            /* Možnosti sa ukladajú pod seba */
+            gap: 10px;
+            /* Medzera medzi tlačidlami možností */
+            margin-top: 15px;
+        }
+
+        /* Prispôsobenie tlačidiel v #options pre mobilné zobrazenie */
+        #options button {
+            width: 100%;
+            /* Na mobiloch zaberajú 100% šírky */
+            margin: 0;
+            /* Odstránenie horizontálnych okrajov, flex gap to zvládne */
+        }
+
+        /* Responzívne úpravy pre menšie obrazovky */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+                /* Zmenšenie paddingu na menších obrazovkách */
+            }
+
+            .card {
+                width: 95%;
+                /* Na menších obrazovkách zaberie karta viac šírky */
+                padding: 15px;
+            }
+
+            button {
+                padding: 10px 15px;
+                font-size: 16px;
+            }
+
+            #question {
+                font-size: 22px;
+            }
+
+            #questionText,
+            #resultText {
+                font-size: 18px;
+            }
+        }

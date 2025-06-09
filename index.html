@@ -1,15 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="sk">
 <head>
+    <meta charset="UTF-8">
+    <!-- Pridaný meta tag viewport pre responzívny dizajn na mobilných zariadeniach -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Večerné Rozhodovanie</title>
-    <style>
-        body { font-family: sans-serif; text-align: center; margin-top: 50px; background-color: #f4f4f4; }
-        .card { background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 400px; margin: auto; }
-        button { background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin: 10px; font-size: 16px; }
-        button:hover { opacity: 0.9; }
-        #question { font-size: 20px; margin-bottom: 20px; }
-        #options button { width: 45%; }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -29,9 +25,10 @@
 </div>
 
 <script>
+    // Definovanie otázok a ich možností
     let questions = {
         "start": {
-            "text": "Som naozaj VYČERPANÝ (nemám energiu sústrediť sa)?",
+            "text": "Cítim sa vyčerpaný a nemám energiu sústrediť sa?",
             "yes": "result_tired",
             "no": "q_urgent"
         },
@@ -41,7 +38,7 @@
             "no": "q_value"
         },
         "q_value": {
-            "text": "Čo mi teraz prinesie najväčšiu HODNOTU/UPOKOJENIE?",
+            "text": "Čo mi teraz prinesie najväčšiu HODNOTU?",
             "options": {
                 "Chcem sa ROZVÍJAŤ (Čítať/Podcast)": "result_read",
                 "Potrebujem si UTRIEDIŤ (Premýšľať)": "result_think"
@@ -49,25 +46,34 @@
         }
     };
 
+    // Definovanie výsledkov rozhodovania
     let results = {
-        "result_tired": "AKCIA: Choď SPAŤ (alebo pasívny oddych: ľahký podcast/hudba, krátke premýšľanie bez tlaku). Oddych je najdôležitejší!",
+        "result_tired": "AKCIA: Ak je po 21.30 Choď SPAŤ! (inak pasívny oddych: ľahký podcast/hudba, krátke premýšľanie bez tlaku). Oddych je najdôležitejší!",
         "result_work": "AKCIA: Pravidlo 15 minút na PRÁCU. Potom vyhodnoť: pokračovať alebo ísť spať.",
         "result_read": "AKCIA: Pravidlo 15 minút: ČÍTAŤ / POČÚVAŤ PODCAST.",
         "result_think": "AKCIA: Pravidlo 15 minút: PREMÝŠĽAŤ (a možno si niečo zapísať)."
     };
 
+    /**
+     * Spustí proces rozhodovania, skryje úvodnú obrazovku a zobrazí obrazovku rozhodovania.
+     */
     function startDecision() {
         document.getElementById('startScreen').style.display = 'none';
         document.getElementById('decisionScreen').style.display = 'block';
-        askQuestion("start");
+        askQuestion("start"); // Začína s prvou otázkou
     }
 
+    /**
+     * Zobrazí otázku na obrazovke rozhodovania a vygeneruje príslušné možnosti.
+     * @param {string} key Kľúč otázky z objektu `questions`.
+     */
     function askQuestion(key) {
         let q = questions[key];
         document.getElementById('questionText').innerText = q.text;
         let optionsDiv = document.getElementById('options');
-        optionsDiv.innerHTML = ''; // Clear previous options
+        optionsDiv.innerHTML = ''; // Vymaže predošlé možnosti
 
+        // Dynamické vytváranie tlačidiel pre možnosti
         if (q.yes) {
             let yesBtn = document.createElement('button');
             yesBtn.innerText = "ÁNO";
@@ -90,16 +96,25 @@
         }
     }
 
+    /**
+     * Spracuje odpoveď používateľa a buď prejde na ďalšiu otázku, alebo zobrazí výsledok.
+     * @param {string} nextKey Kľúč pre ďalšiu otázku alebo výsledok.
+     */
     function processAnswer(nextKey) {
         if (nextKey.startsWith("result_")) {
+            // Ak je to výsledok, zobrazí obrazovku výsledkov
             document.getElementById('decisionScreen').style.display = 'none';
             document.getElementById('resultScreen').style.display = 'block';
             document.getElementById('resultText').innerText = results[nextKey];
         } else {
+            // Inak, prejde na ďalšiu otázku
             askQuestion(nextKey);
         }
     }
 
+    /**
+     * Reštartuje proces rozhodovania, skryje obrazovku výsledkov a zobrazí úvodnú obrazovku.
+     */
     function restartDecision() {
         document.getElementById('resultScreen').style.display = 'none';
         document.getElementById('startScreen').style.display = 'block';
